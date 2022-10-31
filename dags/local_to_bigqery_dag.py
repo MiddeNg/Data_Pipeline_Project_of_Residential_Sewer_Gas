@@ -10,10 +10,11 @@ from airflow.utils.dates import days_ago
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from google.cloud import storage
 
+
 PROJECT_ID = os.environ.get("GCP_PROJECT_ID")
 BUCKET = os.environ.get("GCP_GCS_BUCKET")
 
-#load bandcamps sales and bandcamp in "data" folder 
+
 path_to_local_home = os.environ.get('AIRFLOW_HOME', '/opt/airflow/')
 raw_data_folder_path='/opt/airflow/raw_data'
 metadata_file_path='/opt/airflow/metadata/data_of_location.json'
@@ -23,6 +24,7 @@ default_args = {
     "depends_on_past": False,
     "retries": 1,
 }
+
 
 def upload_to_gcs(bucket, gcs_path, local_path, sensors_location, record_date):
     # WORKAROUND to prevent timeout for files > 6 MB on 800 kbps upload speed.
@@ -48,6 +50,8 @@ def upload_to_gcs(bucket, gcs_path, local_path, sensors_location, record_date):
         print(file_name + " doesn't exist...")
 
     return uploaded_file
+
+
 def check_if_file_exist(table_name, **context ):
     uploaded_file=context['task_instance'].xcom_pull(f"local_{table_name}_to_gcs_task")
     if uploaded_file:
@@ -56,8 +60,6 @@ def check_if_file_exist(table_name, **context ):
         return f'finish_{table_name}_task'
 
     
-# def gcs_to_bigquery():
-
 with DAG(
     dag_id="local_to_bigquery_dag",
     start_date=datetime(2022, 10, 5),
