@@ -28,7 +28,7 @@ default_args = {
 }
 
 
-def upload_to_gcs(bucket, gcs_path, local_path, sensors_location, record_date):
+def upload_to_gcs(bucket, local_path, sensors_location, record_date):
     # WORKAROUND to prevent timeout for files > 6 MB on 800 kbps upload speed.
     # (Ref: https://github.com/googleapis/python-storage/issues/74)
     storage.blob._MAX_MULTIPART_SIZE = 5 * 1024 * 1024  # 5 MB
@@ -92,7 +92,6 @@ with DAG(
             python_callable=upload_to_gcs,
             op_kwargs={
                 "bucket": BUCKET,
-                "gcs_path": "raw_fyp_data",
                 "local_path": raw_data_folder_path,
                 "sensors_location":sensors_location,
                 "record_date": "{{ execution_date.strftime(\'%d%m\') }}"
