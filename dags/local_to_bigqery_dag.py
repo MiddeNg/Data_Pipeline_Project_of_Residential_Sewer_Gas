@@ -18,6 +18,8 @@ BUCKET = os.environ.get("GCP_GCS_BUCKET")
 path_to_local_home = os.environ.get('AIRFLOW_HOME', '/opt/airflow/')
 raw_data_folder_path='/opt/airflow/raw_data'
 metadata_file_path='/opt/airflow/metadata/data_of_location.json'
+schema_file_path='/opt/airflow/metadata/schema.json'
+
 
 default_args = {
     "owner": "airflow",
@@ -70,12 +72,20 @@ with DAG(
     max_active_runs=6,
     tags=['fyp'],
 ) as dag:
-
+    
     with open(metadata_file_path, 'r') as fp:
         metadata = json.load(fp)
         metadata = dict(metadata)
+    
+    with open(schema_file_path, 'r') as file:
+        schema_data=json.load(file)
+        schema_data=dict(schema_data)
 
-    for table_name ,sensors_location in metadata.items():
+    for table_name, sensors_data in metadata.items():
+
+        sensors_location = sensors_data["file_prefix"]  
+        schema_name = sensors_data["schema_name"]
+        table_schema = schema_data[schema_name]
 
         local_to_gcs_task = PythonOperator(
             task_id=f"local_{table_name}_to_gcs_task",
@@ -101,10 +111,7 @@ with DAG(
         gcs_to_bigquery_task = GCSToBigQueryOperator(
             task_id=f"gcs_{table_name}_to_bigquery_task",
             bucket= BUCKET,
-            schema_fields=[{"name": "timestamp", "type": "TIMESTAMP", "mode": "REQUIRED"},
-                            {"name": "day_of_week", "type": "STRING", "mode": "REQUIRED"},
-                            {"name": "CH4_concentration", "type": "FLOAT", "mode": "NULLABLE"},
-                            {"name": "H2S_concentration", "type": "FLOAT", "mode": "NULLABLE"}],
+            schema_fields= table_schema,
             source_objects=[f"{sensors_location}-"+"{{ execution_date.strftime(\'%d%m\') }}"+".TXT"],
             destination_project_dataset_table=f"sensor_data_raw.{table_name}"+"{{ execution_date.strftime(\'%d_%m\') }}",
         )
@@ -112,10 +119,7 @@ with DAG(
         all_data_gcs_to_bigquery_task = GCSToBigQueryOperator(
             task_id=f"all_data_gcs_{table_name}_to_bigquery_task",
             bucket= BUCKET,
-            schema_fields=[{"name": "timestamp", "type": "TIMESTAMP", "mode": "REQUIRED"},
-                            {"name": "day_of_week", "type": "STRING", "mode": "REQUIRED"},
-                            {"name": "CH4_concentration", "type": "FLOAT", "mode": "NULLABLE"},
-                            {"name": "H2S_concentration", "type": "FLOAT", "mode": "NULLABLE"}],
+            schema_fields=table_schema,
             source_objects=[f"{sensors_location}-"+"{{ execution_date.strftime(\'%d%m\') }}"+".TXT"],
             write_disposition='WRITE_APPEND',
             destination_project_dataset_table=f"{table_name}.{table_name}"

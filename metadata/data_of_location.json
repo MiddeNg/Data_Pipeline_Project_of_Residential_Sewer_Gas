@@ -1,6 +1,6 @@
 {
-    "roof_vent": "RV",
-    "roof_open_environment":"RO",
-    "1st_floor_toilet":"T1",
-    "temperature_humidity_sensor":"temp-humidity"
+    "roof_vent": {"file_prefix": "RV", "schema_name": "arduino_CH4_H2S"},
+    "roof_open_environment":{"file_prefix": "RO", "schema_name": "arduino_CH4_H2S"},
+    "1st_floor_toilet":{"file_prefix": "T1", "schema_name": "arduino_CH4_H2S"},
+    "temperature_humidity_sensor":{"file_prefix": "temp-humidity", "schema_name": "temperature_humidity_sensor"}
 }
