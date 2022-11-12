@@ -5,6 +5,7 @@
                         {"name": "H2S_concentration", "type": "FLOAT", "mode": "NULLABLE"}],
     "temperature_humidity_sensor": [{"name": "index", "type": "INTEGER", "mode": "NULLABLE"},
                                     {"name": "timestamp", "type": "TIMESTAMP", "mode": "REQUIRED"},
+                                    {"name": "Temperature", "type": "FLOAT", "mode": "REQUIRED"},
                                     {"name": "Humidity_RH", "type": "FLOAT", "mode": "REQUIRED"},
                                     {"name": "Dew_Point_Temperature", "type": "FLOAT", "mode": "NULLABLE"}]
 }
