@@ -15,7 +15,7 @@ GROUP BY `timestamp`
 ORDER BY `timestamp` ASC
 ) 
 
-SELECT timestamp_trunc(arduino.timestamp, hour) as `timestamp`, avg(arduino.CH4) as `CH4`, avg(arduino.H2S) as `H2S`,avg(temp_humid_sensors.Temperature) as `Temperature`, avg(temp_humid_sensors.Humidity_RH) as `Humidity_RH`
+SELECT extract(hour from arduino.timestamp) as `timestamp`, avg(arduino.CH4) as `CH4`, avg(arduino.H2S) as `H2S`,avg(temp_humid_sensors.Temperature) as `Temperature`, avg(temp_humid_sensors.Humidity_RH) as `Humidity_RH`
 from arduino JOIN temp_humid_sensors
 on arduino.timestamp = temp_humid_sensors.timestamp
 group by `timestamp`
