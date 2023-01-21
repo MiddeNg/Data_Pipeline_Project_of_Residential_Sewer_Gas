@@ -27,13 +27,15 @@ The sensors record the data(concentration of CH4, H2S, time, humidity and temper
 2. move the dataset from the GCP storage to bigquery
 3. transform the data in Bigquery using SQL 
 4. Visualize the data with Google DataStudio/Metabase
+<img src="/assets/images/pipeline_drawing.drawio.png">
+
 ## Software used
 **Infrastructure**: Terraform\
 **Containization**: Docker\
 **Orchestration**: Airflow\
 **Data Lake**: Google Cloud Storage\
 **Data Warehouse**: Bigquery\
-**Data Visualization**: Google DataStudio, Metabase\
+**Data Visualization**: Google DataStudio, Metabase
 # Result
 The following link plot the change in concentration of gases of a particular building in 7 days.
  [Click here](https://datastudio.google.com/s/lr6wp8qRx-U "Heading link")
