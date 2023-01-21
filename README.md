@@ -11,16 +11,16 @@
 
 
 # Summary
-This is the data engineering and visualization part of the capstone project that aims to investigate sewer gases in housing estate with collected data. The team collects data using Arduino devices and the data is imorted to a local PC. This github project transform the local data and visualize the result through a data pipeline. 
+This is the data engineering and visualization part of the capstone project that aims to investigate sewer gases in housing estate with collected data. The team collects data using Arduino devices and the data is imported to a local PC. This github project transforms the local data and visualizes the result through a data pipeline. 
 # Acknowledgement
 This is part of the effort of MECH 4429 capstone project.  All the code and the github repository is created and maintained by William Ng. \
  Markdown tool used: <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 # Objective
 ## objective of the capstone project
-This capstone project aims to analysis the source and the change in concentrations of sewer gases wthin the drainage system of residential housing with respective to time and space. Several sensors are place in the opening of various draing pipe to record the concentration of H2S and CH4 for several days. The data is gathered and tranformed into graphs to identify useful insight in the following data project.
+This capstone project aims to analyze the source and the change in concentrations of sewer gases wthin the drainage system of residential housing with respective to time and space. Several sensors are place in the opening of various draing pipe's opening to record the concentrations of H2S and CH4 for several days. The data is gathered and tranformed into tables and graphs to identify useful insights in the following data project.
 ## objective of this data project
-The sensors record the data(concentration of CH4, H2S, time, humidity and temperature) at various locations at a rate of 1 record/second in TXT format. The data is import to PC local storage as the source of the data pipeline. This github project will create a data pipeline that transform the data to tables in bigquery for plotting useful graphs. 
+The sensors record the data(concentration of CH4, H2S, time, humidity and temperature) at various locations at a rate of 1 record/second in TXT format. The data is import to PC local storage as the source of the data pipeline. This github project will create a data pipeline that transforms the data to tables in bigquery for plotting useful graphs. 
 # Data Pipeline
 ## Procedures
 1. move the raw dataset from the local storage to GCP storage
